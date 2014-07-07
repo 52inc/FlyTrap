@@ -86,7 +86,6 @@ public class Bug {
     private PointF center;
     private float radius;
     private int accentColor;
-    private boolean isSelected = false;
     private List<Comment> comments;
 
     private Paint paint;
@@ -137,22 +136,33 @@ public class Bug {
     public PointF getCenter(){ return center; }
 
     /**
-     * Get the radius of the bug punchout on the view.
-     */
-    public float getRadius(){ return radius; }
-
-    /**
-     * Get the accent color of this bug
-     */
-    public int getAccentColor(){ return accentColor; }
-
-    /**
      * Update the center location of this bug item
      * @param center
      */
     public void setCenter(PointF center){
         this.center = center;
     }
+
+    public float getCenterX(){
+        return center.x;
+    }
+
+    public float getCenterY(){
+        return center.y;
+    }
+
+    public void setCenterX(float val){
+        center.x = val;
+    }
+
+    public void setCenterY(float val){
+        center.y = val;
+    }
+
+    /**
+     * Get the radius of the bug punchout on the view.
+     */
+    public float getRadius(){ return radius; }
 
     /**
      * Update the radius of this bug item
@@ -163,20 +173,9 @@ public class Bug {
     }
 
     /**
-     * Return selected
-     * @return
+     * Get the accent color of this bug
      */
-    public boolean isSelected(){
-        return isSelected;
-    }
-
-    /**
-     * set the selected state
-     * @param val
-     */
-    public void setSelected(boolean val){
-        isSelected = val;
-    }
+    public int getAccentColor(){ return accentColor; }
 
     /**
      * Add a comment to this bug

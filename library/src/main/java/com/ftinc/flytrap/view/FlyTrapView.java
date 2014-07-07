@@ -16,6 +16,9 @@
 
 package com.ftinc.flytrap.view;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -24,6 +27,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -33,6 +37,8 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -40,6 +46,7 @@ import android.widget.TextView;
 
 import com.ftinc.flytrap.R;
 import com.ftinc.flytrap.model.Bug;
+import com.ftinc.flytrap.model.Report;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +66,19 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
      *
      */
 
+    private static final long ANIM_DURATION = 3000L;
+    private static final long ACTION_ANIM_DURATION = 200L;
+
     private GestureDetector mGestureDetector;
 
     private List<Bug> mBugs;
     private Bug mActiveBug;
 
-    private Paint mAccentPaint;
+    private AnimatorSet mActiveSet;
+    private float mActiveStartAngle = 0f;
+    private float mActiveSweepAngle = 0f;
+
+    private Paint mAccentPaint, mActivePaint;
 
     private LinearLayout mDoneLayout;
 
@@ -141,8 +155,20 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
                 // Take Screenshots and package bug/comments/screenshots into compressed deliverable
                 // and send it to the server.
 
+                // Mask screen shot
+                setDrawingCacheEnabled(true);
+                Bitmap flyTrapMask = Bitmap.createBitmap(getDrawingCache());
+                setDrawingCacheEnabled(false);
+
+                // Generate screen of the originating activity
+
+                Report report = new Report.Builder()
+                        .addBugs(mBugs)
+                        .build();
+
+
                 // finish activity
-                if(mActionListener != null) mActionListener.onDone();
+                if(mActionListener != null) mActionListener.onDone(report);
             }
         });
 
@@ -162,6 +188,11 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
         mAccentPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mAccentPaint.setStyle(Paint.Style.STROKE);
         mAccentPaint.setStrokeWidth(5);
+
+        mActivePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mActivePaint.setStyle(Paint.Style.STROKE);
+        mActivePaint.setStrokeWidth(5);
+        mActivePaint.setColor(Color.CYAN);
 
     }
 
@@ -188,8 +219,31 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
                 newCenter.y = b.getCenter().y - (yDiff/2f);
 
                 // Update bug item
-                b.setCenter(newCenter);
-                b.setRadius(newRadius);
+//                b.setCenter(newCenter);
+//                b.setRadius(newRadius);
+
+                // Animate absorbtion
+                ObjectAnimator scale = ObjectAnimator.ofFloat(b, "radius", b.getRadius(), newRadius);
+                scale.setDuration(ACTION_ANIM_DURATION);
+                scale.setInterpolator(new AccelerateInterpolator());
+                scale.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        invalidate();
+                    }
+                });
+
+                ObjectAnimator transX = ObjectAnimator.ofFloat(b, "centerX", b.getCenterX(), newCenter.x);
+                transX.setDuration(ACTION_ANIM_DURATION);
+                transX.setInterpolator(new AccelerateInterpolator());
+
+                ObjectAnimator transY = ObjectAnimator.ofFloat(b, "centerY", b.getCenterY(), newCenter.y);
+                transY.setDuration(ACTION_ANIM_DURATION);
+                transY.setInterpolator(new AccelerateInterpolator());
+
+                AnimatorSet set = new AnimatorSet();
+                set.playTogether(scale, transX, transY);
+                set.start();
 
                 // Refresh view
                 invalidate();
@@ -201,9 +255,17 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
         // Add bug to local store
         mBugs.add(bug);
 
-        // Add the appropriate UI for a new bug
-
         // Start animation of new bug object
+        ObjectAnimator anim = ObjectAnimator.ofFloat(bug, "radius", 0, dpToPx(getContext(), 48));
+        anim.setDuration(200L);
+        anim.setInterpolator(new AccelerateInterpolator());
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                invalidate();
+            }
+        });
+        anim.start();
 
         // Invalidate the view
         invalidate();
@@ -247,6 +309,24 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
     }
 
     /**
+     * Render the current active bug if it exists
+     *
+     * @param canvas        the canvas to render to
+     */
+    private void renderActiveItem(Canvas canvas){
+        if(mActiveBug != null){
+
+            float radius = mActiveBug.getRadius() + 5;
+            float x = mActiveBug.getCenter().x;
+            float y = mActiveBug.getCenter().y;
+            RectF oval = new RectF(x - radius, y - radius, x + radius, y + radius);
+
+            canvas.drawArc(oval, mActiveStartAngle, mActiveSweepAngle, false, mActivePaint);
+
+        }
+    }
+
+    /**
      * Find if a motion event hit an existing
      * bug, and return that bug if it did. Otherwise
      * return null.
@@ -269,6 +349,49 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
         }
 
         return null;
+    }
+
+    private void startActiveAnimations(){
+        stopActiveAnimation();
+
+        ValueAnimator startAngleAnim = ValueAnimator.ofFloat(0, 360);
+        startAngleAnim.setDuration(ANIM_DURATION);
+        startAngleAnim.setInterpolator(new LinearInterpolator());
+        startAngleAnim.setRepeatCount(ValueAnimator.INFINITE);
+        startAngleAnim.setRepeatMode(ValueAnimator.RESTART);
+        startAngleAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mActiveStartAngle = (float) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+
+        ValueAnimator sweepAngleAnim = ValueAnimator.ofFloat(0, 360);
+        sweepAngleAnim.setDuration(ANIM_DURATION);
+        sweepAngleAnim.setInterpolator(new LinearInterpolator());
+        sweepAngleAnim.setRepeatCount(ValueAnimator.INFINITE);
+        sweepAngleAnim.setRepeatMode(ValueAnimator.REVERSE);
+        sweepAngleAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mActiveSweepAngle = (float) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+
+        mActiveSet = new AnimatorSet();
+        mActiveSet.playTogether(startAngleAnim, sweepAngleAnim);
+        mActiveSet.start();
+
+    }
+
+    private void stopActiveAnimation(){
+        if(mActiveSet != null) {
+            mActiveSet.end();
+            mActiveSet = null;
+        }
+
     }
 
     /***************************************************************************
@@ -323,6 +446,9 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
         // Render the bug accents
         renderAccents(canvas);
 
+        // Render bug actions if active bug isn't null
+        renderActiveItem(canvas);
+
         // Render Associating text
 
 
@@ -357,7 +483,7 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
             // Generate the bug
             Bug bug = new Bug.Builder(0)
                     .setCenter(touch)
-                    .setRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics()))
+                    .setRadius(dpToPx(getContext(), 48))
                     .setAccentColor(getResources().getColor(android.R.color.holo_red_light))
                     .build();
 
@@ -390,8 +516,12 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
             Log.d(TAG, "Bug selected: " + bug);
 
             // Animate in and display the bug actions
+            startActiveAnimations();
 
 
+        }else{
+            mActiveBug = null;
+            stopActiveAnimation();
         }
 
     }
@@ -454,7 +584,7 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
      * members of actions from within this view
      */
     public static interface OnFlyTrapActionListener{
-        public void onDone();
+        public void onDone(Report report);
     }
 
 }
