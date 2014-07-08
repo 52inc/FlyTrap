@@ -16,6 +16,8 @@
 
 package com.ftinc.flytrap.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -37,6 +39,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -44,6 +47,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ftinc.flytrap.FlyTrap;
 import com.ftinc.flytrap.R;
 import com.ftinc.flytrap.model.Bug;
 import com.ftinc.flytrap.model.Report;
@@ -84,14 +88,17 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
 
     private OnFlyTrapActionListener mActionListener;
 
+    private FlyTrap.Config mConfig;
+
     /***************************************************************************
      *
      * Constructors
      *
      */
 
-    public FlyTrapView(Context context) {
+    public FlyTrapView(Context context, FlyTrap.Config config) {
         super(context);
+        mConfig = config;
         init();
     }
 
@@ -133,6 +140,7 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
         doneView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         doneView.setTypeface(null, Typeface.BOLD);
         doneView.setShadowLayer(2, 0, 1, Color.LTGRAY);
+        doneView.setGravity(Gravity.CENTER);
 
         ImageView nextImageView = new ImageView(getContext());
         nextImageView.setImageResource(R.drawable.ic_action_next);
@@ -203,72 +211,26 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
      */
     private void addBug(Bug bug){
         Log.d(TAG, "Bug added [" + bug.getCenter() + "]");
+        if(!collideAndAbsorb(bug)) {
 
-        // Detect collision with other bugs and absorb those bugs into the new bug
-        for(Bug b: mBugs){
-            if(collision(bug, b)){
-                // Absorb the existing bug into the new one, or vice versa
-                float dist = distance(b.getCenter(), bug.getCenter());
-                float newRadius = (dist + b.getRadius() + bug.getRadius()) / 2f;
+            // Add bug to local store
+            mBugs.add(bug);
 
-                // Compute new center
-                PointF newCenter = new PointF();
-                float xDiff = b.getCenter().x - bug.getCenter().x;
-                float yDiff = b.getCenter().y - bug.getCenter().y;
-                newCenter.x = b.getCenter().x - (xDiff/2f);
-                newCenter.y = b.getCenter().y - (yDiff/2f);
+            // Start animation of new bug object
+            ObjectAnimator anim = ObjectAnimator.ofFloat(bug, "radius", 0, mConfig.defaultRadius);
+            anim.setDuration(200L);
+            anim.setInterpolator(new AccelerateInterpolator());
+            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    invalidate();
+                }
+            });
+            anim.start();
 
-                // Update bug item
-//                b.setCenter(newCenter);
-//                b.setRadius(newRadius);
-
-                // Animate absorbtion
-                ObjectAnimator scale = ObjectAnimator.ofFloat(b, "radius", b.getRadius(), newRadius);
-                scale.setDuration(ACTION_ANIM_DURATION);
-                scale.setInterpolator(new AccelerateInterpolator());
-                scale.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        invalidate();
-                    }
-                });
-
-                ObjectAnimator transX = ObjectAnimator.ofFloat(b, "centerX", b.getCenterX(), newCenter.x);
-                transX.setDuration(ACTION_ANIM_DURATION);
-                transX.setInterpolator(new AccelerateInterpolator());
-
-                ObjectAnimator transY = ObjectAnimator.ofFloat(b, "centerY", b.getCenterY(), newCenter.y);
-                transY.setDuration(ACTION_ANIM_DURATION);
-                transY.setInterpolator(new AccelerateInterpolator());
-
-                AnimatorSet set = new AnimatorSet();
-                set.playTogether(scale, transX, transY);
-                set.start();
-
-                // Refresh view
-                invalidate();
-                return;
-            }
+            // Invalidate the view
+            invalidate();
         }
-
-
-        // Add bug to local store
-        mBugs.add(bug);
-
-        // Start animation of new bug object
-        ObjectAnimator anim = ObjectAnimator.ofFloat(bug, "radius", 0, dpToPx(getContext(), 48));
-        anim.setDuration(200L);
-        anim.setInterpolator(new AccelerateInterpolator());
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                invalidate();
-            }
-        });
-        anim.start();
-
-        // Invalidate the view
-        invalidate();
     }
 
     /**
@@ -394,11 +356,70 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
 
     }
 
+    public boolean collideAndAbsorb(final Bug bug){
+        if(mBugs.contains(bug)) mBugs.remove(bug);
+
+        // Detect collision with other bugs and absorb those bugs into the new bug
+        for(final Bug b: mBugs){
+            if(collision(bug, b)){
+                // Absorb the existing bug into the new one, or vice versa
+                float newRadius = (b.getRadius() + bug.getRadius()/2f);
+
+                // Compute new center
+                PointF newCenter = new PointF();
+                float xDiff = b.getCenter().x - bug.getCenter().x;
+                float yDiff = b.getCenter().y - bug.getCenter().y;
+                newCenter.x = b.getCenter().x - (xDiff/2f);
+                newCenter.y = b.getCenter().y - (yDiff/2f);
+
+                // Animate absorbtion
+                ObjectAnimator scale = ObjectAnimator.ofFloat(b, "radius", b.getRadius(), newRadius);
+                scale.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        invalidate();
+                    }
+                });
+
+                ObjectAnimator transX = ObjectAnimator.ofFloat(b, "centerX", b.getCenterX(), newCenter.x);
+                ObjectAnimator transY = ObjectAnimator.ofFloat(b, "centerY", b.getCenterY(), newCenter.y);
+
+                AnimatorSet set = new AnimatorSet();
+                set.playTogether(scale, transX, transY);
+                set.setDuration(ACTION_ANIM_DURATION);
+                set.setInterpolator(new AccelerateDecelerateInterpolator());
+                set.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        for(int i=0; i<mBugs.size(); i++) {
+                            Bug b2 = mBugs.get(i);
+                            if(collision(b, b2) && b != b2) {
+                                collideAndAbsorb(b2);
+                                break;
+                            }
+                        }
+
+                    }
+                });
+                set.start();
+
+                invalidate();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /***************************************************************************
      *
      * Override Methods
      *
      */
+
+    private Bug mSelectedBug;
+    private PointF mLastPos;
+    private boolean mIsScaleMode = false;
 
 
     @Override
@@ -407,6 +428,59 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
         boolean result = mGestureDetector.onTouchEvent(event);
 
         // Detect drags to resize bugs
+        switch(event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+
+                // Check to see if the down state was in a bug object
+                for(Bug bug: mBugs){
+                    if(bug.collidesWith(event.getX(), event.getY())){
+                        mIsScaleMode = mActiveBug == bug;
+                        mSelectedBug = bug;
+                        mLastPos = new PointF(event.getX(), event.getY());
+                        return true;
+                    }
+                }
+
+                break;
+            case MotionEvent.ACTION_MOVE:
+
+                if(mSelectedBug != null){
+
+                    if(mIsScaleMode) {
+
+                        // Compute distance from center
+                        float dist = FlyTrapView.distance(mSelectedBug.getCenter(), new PointF(event.getX(), event.getY()));
+
+                        // Apply this as the new radius
+                        mSelectedBug.setRadius(dist);
+
+                        invalidate();
+                        return true;
+                    }else{
+
+                        // Calculate delta change from last point
+                        float dX = event.getX() - mLastPos.x;
+                        float dY = event.getY() - mLastPos.y;
+
+                        // move bug by changed amount
+                        mSelectedBug.setCenterX(mSelectedBug.getCenterX() + dX);
+                        mSelectedBug.setCenterY(mSelectedBug.getCenterY() + dY);
+                        invalidate();
+
+                        mLastPos.set(event.getX(), event.getY());
+                    }
+                }
+
+                break;
+            case MotionEvent.ACTION_UP:
+                mSelectedBug = null;
+
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                mSelectedBug = null;
+
+                break;
+        }
 
 
         return true;
@@ -483,8 +557,8 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
             // Generate the bug
             Bug bug = new Bug.Builder(0)
                     .setCenter(touch)
-                    .setRadius(dpToPx(getContext(), 48))
-                    .setAccentColor(getResources().getColor(android.R.color.holo_red_light))
+                    .setRadius(mConfig.defaultRadius)
+                    .setAccentColor(mConfig.accentColor)
                     .build();
 
             // Insert bug report into manager

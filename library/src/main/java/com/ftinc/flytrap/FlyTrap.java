@@ -12,8 +12,6 @@ import android.widget.Toast;
 import com.ftinc.flytrap.model.Report;
 import com.ftinc.flytrap.view.FlyTrapView;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,8 +27,16 @@ public class FlyTrap extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Pull configuration
+        Config config;
+        if(getIntent() != null && getIntent().getExtras() != null){
+            config = Config.createFromExtras(getIntent().getExtras());
+        }else{
+            throw new NullPointerException("You must provide a Config to the FlyTrap");
+        }
+
         // Create FlyTrapView
-        FlyTrapView view = new FlyTrapView(this);
+        FlyTrapView view = new FlyTrapView(this, config);
         setContentView(view);
 
         view.setOnFlyTrapActionListener(new FlyTrapView.OnFlyTrapActionListener() {
@@ -70,8 +76,12 @@ public class FlyTrap extends Activity {
             // Generate intent to display flytrap activity
             Intent intent = new Intent(ctx, FlyTrap.class);
 
+            // Build default config
+            Config config = Config.createDefault(ctx);
+            config.rootImagePath = rootScreenShot.getPath();
+
             // Put the location of the temp file into the intent to be retrieved later
-            intent.putExtra("root_screen_shot", rootScreenShot.getPath());
+            config.apply(intent);
 
             // Start FlyTrap
             ctx.startActivity(intent);
@@ -86,19 +96,16 @@ public class FlyTrap extends Activity {
      * @param ctx           the application context
      * @param config        the fly trap configuration
      */
-    public static void startFlyTrap(Activity ctx, @NotNull("Must supply a configuration") Config config){
+    public static void startFlyTrap(Activity ctx, Config config){
         // Capture screen from the calling activity and store in a temporary file for later use
         File rootScreenShot = captureRootScreenShot(ctx);
-
         if(rootScreenShot != null) {
 
             // Generate intent to display flytrap activity
             Intent intent = new Intent(ctx, FlyTrap.class);
 
-            // Put the location of the temp file into the intent to be retrieved later
-            intent.putExtra("root_screen_shot", rootScreenShot.getPath());
-
             // Input extras from configuration details
+            config.rootImagePath = rootScreenShot.getPath();
             config.apply(intent);
 
             // Start FlyTrap
@@ -121,11 +128,9 @@ public class FlyTrap extends Activity {
 
         // Configure screenshot bounds
         Bitmap decorBmp = decor.getDrawingCache();
-        int contentViewTop = activity.getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();
-        int contentViewBottom = activity.getWindow().findViewById(Window.ID_ANDROID_CONTENT).getBottom();
 
         // Create the screenshot per se
-        Bitmap screenShot = Bitmap.createBitmap(decorBmp, 0, contentViewTop,  decorBmp.getWidth(), contentViewBottom - contentViewTop);
+        Bitmap screenShot = Bitmap.createBitmap(decorBmp, 0, 0,  decorBmp.getWidth(), decorBmp.getHeight());
 
         // Recycle the intial bitmap
         decorBmp.recycle();
@@ -171,6 +176,7 @@ public class FlyTrap extends Activity {
         public static final String ACCENT_COLOR = "accent_color";
         public static final String DEFAULT_RADIUS = "default_radius";
         public static final String CACHE_QUALITY = "drawing_cache_quality";
+        public static final String ROOT_IMAGE_PATH = "root_image_path";
 
         /******************************************
          *
@@ -195,6 +201,11 @@ public class FlyTrap extends Activity {
          */
         public int drawingCacheQuality;
 
+        /**
+         * The root image path of the main nav
+         */
+        public String rootImagePath;
+
         /*
          *
          * Configurations that deal with uploading the report to the
@@ -215,11 +226,40 @@ public class FlyTrap extends Activity {
          * @param intent        the intent to launch the FlyTrap activity
          */
         public void apply(Intent intent){
-
             intent.putExtra(ACCENT_COLOR, accentColor);
             intent.putExtra(DEFAULT_RADIUS, defaultRadius);
             intent.putExtra(CACHE_QUALITY, drawingCacheQuality);
+            intent.putExtra(ROOT_IMAGE_PATH, rootImagePath);
+        }
 
+        /**
+         * Restore an instance of config from Bundle extras in an activity
+         * after being launched by a launcher method
+         *
+         * @param xtras
+         * @return
+         */
+        public static Config createFromExtras(Bundle xtras){
+            Config config = new Config();
+            config.accentColor = xtras.getInt(ACCENT_COLOR);
+            config.defaultRadius = xtras.getFloat(DEFAULT_RADIUS);
+            config.drawingCacheQuality = xtras.getInt(CACHE_QUALITY);
+            config.rootImagePath = xtras.getString(ROOT_IMAGE_PATH);
+            return config;
+        }
+
+        /**
+         * Create a default configuration
+         *
+         * @param ctx   the application context
+         * @return      the default configuration
+         */
+        public static Config createDefault(Context ctx){
+            Config config = new Config();
+            config.accentColor = ctx.getResources().getColor(android.R.color.holo_blue_light);
+            config.defaultRadius = FlyTrapView.dpToPx(ctx, 56);
+            config.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH;
+            return config;
         }
 
     }

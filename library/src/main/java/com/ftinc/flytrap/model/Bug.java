@@ -22,6 +22,8 @@ import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 
+import com.ftinc.flytrap.view.FlyTrapView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -176,6 +178,10 @@ public class Bug {
      * Get the accent color of this bug
      */
     public int getAccentColor(){ return accentColor; }
+
+    public boolean collidesWith(float x, float y){
+        return FlyTrapView.distance(new PointF(x,y), center) < radius;
+    }
 
     /**
      * Add a comment to this bug
