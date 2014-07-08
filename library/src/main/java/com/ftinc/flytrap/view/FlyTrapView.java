@@ -52,7 +52,12 @@ import com.ftinc.flytrap.R;
 import com.ftinc.flytrap.model.Bug;
 import com.ftinc.flytrap.model.Report;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -96,21 +101,27 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
      *
      */
 
+    /**
+     * Config Constructor
+     *
+     * @param context   the application context
+     * @param config    the flytrap config
+     */
     public FlyTrapView(Context context, FlyTrap.Config config) {
         super(context);
         mConfig = config;
         init();
     }
 
-    public FlyTrapView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public FlyTrapView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
+//    public FlyTrapView(Context context, AttributeSet attrs) {
+//        super(context, attrs);
+//        init();
+//    }
+//
+//    public FlyTrapView(Context context, AttributeSet attrs, int defStyleAttr) {
+//        super(context, attrs, defStyleAttr);
+//        init();
+//    }
 
     /**
      * Set the view's action listener
@@ -163,20 +174,40 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
                 // Take Screenshots and package bug/comments/screenshots into compressed deliverable
                 // and send it to the server.
 
+
                 // Mask screen shot
                 setDrawingCacheEnabled(true);
                 Bitmap flyTrapMask = Bitmap.createBitmap(getDrawingCache());
                 setDrawingCacheEnabled(false);
 
-                // Generate screen of the originating activity
+                // Save the newly generated screenshot into a temporary variable
+                try {
 
-                Report report = new Report.Builder()
-                        .addBugs(mBugs)
-                        .build();
+                    // Create an image file name
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String imageFileName = "PNG_" + timeStamp + "_";
+                    File cacheDir = getContext().getCacheDir();
+                    File tempFile = File.createTempFile(imageFileName, ".png", cacheDir);
 
+                    // Write bitmap to file
+                    boolean result = flyTrapMask.compress(Bitmap.CompressFormat.PNG, 0, new FileOutputStream(tempFile));
+                    if(result){
 
-                // finish activity
-                if(mActionListener != null) mActionListener.onDone(report);
+                        // Generate screen of the originating activity
+                        Report report = new Report.Builder()
+                                .addBugs(mBugs)
+                                .setBaseScreenshot(mConfig.rootImagePath)
+                                .setShadeScreenshot(tempFile.getPath())
+                                .build();
+
+                        // finish activity
+                        if(mActionListener != null) mActionListener.onDone(report);
+
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

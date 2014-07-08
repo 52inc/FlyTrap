@@ -44,7 +44,7 @@ public class FlyTrap extends Activity {
             public void onDone(Report report) {
 
                 // Generate Report to disk
-
+                report.generateReport();
 
                 // Handle generated report based on configuration
 

@@ -1,8 +1,22 @@
 package com.ftinc.flytrap.model;
 
+import android.content.Context;
+import android.os.AsyncTask;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +41,9 @@ public class Report {
     private long timestamp;
     private List<Bug> bugs;
 
+    private String baseScreenShot;
+    private String shadeScreenShot;
+
     /**
      * Empty Constructor
      */
@@ -38,7 +55,8 @@ public class Report {
     public String getTitle(){ return title; }
     public long getTimestamp(){ return timestamp; }
     public List<Bug> getBugs(){ return bugs; }
-
+    public String getBaseScreenshot(){ return baseScreenShot; }
+    public String getShadeScreenshot(){ return shadeScreenShot; }
 
     /**
      * Generate the bug report into a temp zip file
@@ -47,10 +65,85 @@ public class Report {
      *
      * @return
      */
-    public File generateReport(){
+    public void generateReport(final Context ctx){
 
         // Serialize information to JSON
+        new AsyncTask<Void, Void, Void>(){
+            @Override
+            protected Void doInBackground(Void... params) {
 
+                // Generate a title
+                String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                title = String.format("TRAP_REPORT_%s", timestamp);
+
+                // Serialize metadata into JSON
+                JSONObject meta = new JSONObject();
+                FileWriter writer = null;
+                try {
+                    meta.put("title", title);
+                    meta.put("timestamp", timestamp);
+
+                    // Insert all the bugs
+                    JSONArray bugData = new JSONArray();
+                    for(Bug bug: bugs){
+                        bugData.put(bug.toJSON());
+                    }
+                    meta.put("bugs", bugData);
+
+                    // Create the new item directory
+                    File reportDir = new File(ctx.getFilesDir(), title);
+                    reportDir.mkdir();
+
+                    // Write the meta json to the dir
+                    File metaFile = new File(reportDir, "metadata.json");
+                    writer = new FileWriter(metaFile);
+                    writer.write(meta.toString());
+                    writer.close();
+                    writer = null;
+
+                    // Now copy over the saved screenshots from
+                    File baseScreen = new File(baseScreenShot);
+                    File shadeScreen = new File(shadeScreenShot);
+
+                    File baseOutput = new File(reportDir, baseScreen.getName());
+                    File shadeOutput = new File(reportDir, shadeScreen.getName());
+
+                    boolean cpResult1 = copy(baseScreen, baseOutput);
+                    boolean cpResult2 = copy(shadeScreen, shadeOutput);
+
+                    if(cpResult1 && cpResult2){
+                        // All file and data are now in the report directory, now we must compress the directory into a zip file
+
+
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally{
+                    if(writer != null){
+                        try {
+                            writer.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+
+
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+
+
+            }
+        }.execute();
 
         // Save screenshot data to disk
 
@@ -58,7 +151,54 @@ public class Report {
         // Generate ZIP file
 
 
-        return null;
+    }
+
+    /**
+     * Copy files from one source to another
+     *
+     * @param input     the input source file
+     * @param output    the destination file
+     * @return          true if operation was successful
+     *
+     * @throws IOException
+     */
+    private static boolean copy(File input, File output) throws IOException {
+
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+        try {
+            fis = new FileInputStream(input);
+            fos = new FileOutputStream(output);
+
+            byte[] buffer = new byte[256];
+
+            int count;
+            while ((count = fis.read(buffer)) > 0) {
+                fos.write(buffer, 0, count);
+            }
+
+            fis.close();
+            fis = null;
+
+            fos.close();
+            fos = null;
+
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                fis.close();
+            }
+
+            if(fos != null){
+                fos.close();
+            }
+        }
+
+        return false;
     }
 
 
@@ -97,6 +237,16 @@ public class Report {
 
         public Builder setTitle(String title){
             report.title = title;
+            return this;
+        }
+
+        public Builder setBaseScreenshot(String path){
+            report.baseScreenShot = path;
+            return this;
+        }
+
+        public Builder setShadeScreenshot(String path){
+            report.shadeScreenShot = path;
             return this;
         }
 
