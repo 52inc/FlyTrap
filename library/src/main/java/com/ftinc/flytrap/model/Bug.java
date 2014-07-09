@@ -22,14 +22,10 @@ import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 
-import com.ftinc.flytrap.view.FlyTrapView;
+import com.ftinc.flytrap.util.Utils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This is a single bug instance on the FlyTrap view that indicates where
@@ -75,7 +71,7 @@ public class Bug {
     public static final String KEY_CENTER = "center";
     public static final String KEY_RADIUS = "radius";
     public static final String KEY_COLOR = "accent_color";
-    public static final String KEY_COMMENTS = "comments";
+    public static final String KEY_COMMENT = "comment";
 
 
     /***************************************************************************
@@ -88,7 +84,7 @@ public class Bug {
     private PointF center;
     private float radius;
     private int accentColor;
-    private List<Comment> comments;
+    private String comment;
 
     private Paint paint;
 
@@ -105,7 +101,6 @@ public class Bug {
     private Bug(int id){
         init();
         this.id = id;
-        comments = new ArrayList<>();
         center = new PointF();
     }
 
@@ -129,13 +124,17 @@ public class Bug {
     /**
      * Get the id of this bug
      */
-    public int getId(){ return id; }
+    public int getId(){
+        return id;
+    }
 
     /**
      * Get the center target location of this bug on the
      * screen.
      */
-    public PointF getCenter(){ return center; }
+    public PointF getCenter(){
+        return center;
+    }
 
     /**
      * Update the center location of this bug item
@@ -145,18 +144,31 @@ public class Bug {
         this.center = center;
     }
 
+    /**
+     * Get the center position's x-coordinate
+     */
     public float getCenterX(){
         return center.x;
     }
 
-    public float getCenterY(){
-        return center.y;
-    }
-
+    /**
+     * Set the center position's x-coordinate
+     */
     public void setCenterX(float val){
         center.x = val;
     }
 
+    /**
+     * Get the center position's y-coordinate
+     */
+    public float getCenterY(){
+        return center.y;
+    }
+
+    /**
+     * Set the center position's y-coordinate
+     * @param val
+     */
     public void setCenterY(float val){
         center.y = val;
     }
@@ -164,7 +176,9 @@ public class Bug {
     /**
      * Get the radius of the bug punchout on the view.
      */
-    public float getRadius(){ return radius; }
+    public float getRadius(){
+        return radius;
+    }
 
     /**
      * Update the radius of this bug item
@@ -177,30 +191,36 @@ public class Bug {
     /**
      * Get the accent color of this bug
      */
-    public int getAccentColor(){ return accentColor; }
-
-    public boolean collidesWith(float x, float y){
-        return FlyTrapView.distance(new PointF(x,y), center) < radius;
+    public int getAccentColor(){
+        return accentColor;
     }
 
     /**
-     * Add a comment to this bug
+     * Set the accent color of this bug
      *
-     * @param comment       the comment to add
+     * @param color     the accent color to set
      */
-    public void addComment(Comment comment){
-        comments.add(comment);
+    public void setAccentColor(int color){
+        this.accentColor = color;
     }
 
     /**
-     * Remove a comment from this bug
+     * Set the text comment on this bug
      *
-     * @param comment       the comment to remove
+     * @param comment       the comment to set
      */
-    public void removeComment(Comment comment){
-        comments.remove(comment);
+    public void setComment(String comment){
+        this.comment = comment;
     }
 
+    /**
+     * Get the text comment on this bug
+     *
+     * @return
+     */
+    public String getComment(){
+        return this.comment;
+    }
 
     /***************************************************************************
      *
@@ -219,7 +239,7 @@ public class Bug {
         this.center = jsonToPoint(json.optJSONObject(KEY_CENTER));
         this.radius = (float) json.optDouble(KEY_RADIUS);
         this.accentColor = json.optInt(KEY_COLOR);
-        this.comments = jsonToComments(json.optJSONArray(KEY_COMMENTS));
+        this.comment = json.optString(KEY_COMMENT);
     }
 
     /**
@@ -251,40 +271,15 @@ public class Bug {
     }
 
     /**
-     * Convert a list of comments to a JSONArray
+     * Check if point in space collides with this bug
      *
-     * @param comments      the list of comments to convert
-     * @return              the JSONArray format of comments
+     * @param x     the x-coordinate
+     * @param y     the y-coordinate
+     * @return      true if collides, false otherwise
      */
-    private static JSONArray commentsToJson(List<Comment> comments){
-        JSONArray array = new JSONArray();
-
-        for(Comment comment: comments){
-            array.put(comment.toString());
-        }
-
-        return array;
+    public boolean collidesWith(float x, float y){
+        return Utils.distance(new PointF(x, y), center) < radius;
     }
-
-    /**
-     * Convert a JSONArray into a list of Comments
-     *
-     * @param json      the json array to convert
-     * @return          the list of converted comments
-     */
-    private static List<Comment> jsonToComments(JSONArray json){
-        List<Comment> comments = new ArrayList<>();
-        for(int i=0; i<json.length(); i++){
-            String comment = json.optString(i, null);
-            if(comment != null){
-                Comment cmt = new Comment(comment);
-                comments.add(cmt);
-            }
-        }
-        return comments;
-    }
-
-
 
     /***************************************************************************
      *
@@ -306,7 +301,7 @@ public class Bug {
             json.put(KEY_CENTER, pointToJson(center));
             json.put(KEY_RADIUS, radius);
             json.put(KEY_COLOR, accentColor);
-            json.put(KEY_COMMENTS, commentsToJson(comments));
+            json.put(KEY_COMMENT, comment);
         } catch (JSONException e) {
             e.printStackTrace();
         }

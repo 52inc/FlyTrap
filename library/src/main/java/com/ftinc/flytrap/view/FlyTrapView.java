@@ -51,6 +51,7 @@ import com.ftinc.flytrap.FlyTrap;
 import com.ftinc.flytrap.R;
 import com.ftinc.flytrap.model.Bug;
 import com.ftinc.flytrap.model.Report;
+import com.ftinc.flytrap.util.Utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -162,7 +163,7 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
         mDoneLayout.addView(doneView);
         mDoneLayout.addView(nextImageView);
 
-        int padding = (int) dpToPx(getContext(), 16);
+        int padding = (int) Utils.dpToPx(getContext(), 16);
         mDoneLayout.setPadding(padding, padding, padding, padding);
         mDoneLayout.setGravity(Gravity.CENTER_VERTICAL);
 
@@ -170,10 +171,6 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Done! Progressing to the next stage of FlyTrap");
-
-                // Take Screenshots and package bug/comments/screenshots into compressed deliverable
-                // and send it to the server.
-
 
                 // Mask screen shot
                 setDrawingCacheEnabled(true);
@@ -241,7 +238,6 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
      * @param bug       the bug to add
      */
     private void addBug(Bug bug){
-        Log.d(TAG, "Bug added [" + bug.getCenter() + "]");
         if(!collideAndAbsorb(bug)) {
 
             // Add bug to local store
@@ -334,7 +330,7 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
 
         for(Bug bug: mBugs){
 
-            float dist = distance(new PointF(x, y), bug.getCenter());
+            float dist = Utils.distance(new PointF(x, y), bug.getCenter());
             if(dist < bug.getRadius()){
                 return bug;
             }
@@ -392,7 +388,7 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
 
         // Detect collision with other bugs and absorb those bugs into the new bug
         for(final Bug b: mBugs){
-            if(collision(bug, b)){
+            if(Utils.collision(bug, b)){
                 // Absorb the existing bug into the new one, or vice versa
                 float newRadius = (b.getRadius() + bug.getRadius()/2f);
 
@@ -424,7 +420,7 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
                     public void onAnimationEnd(Animator animation) {
                         for(int i=0; i<mBugs.size(); i++) {
                             Bug b2 = mBugs.get(i);
-                            if(collision(b, b2) && b != b2) {
+                            if(Utils.collision(b, b2) && b != b2) {
                                 collideAndAbsorb(b2);
                                 break;
                             }
@@ -455,7 +451,6 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i(TAG, "FlyTrap touched " + event);
         boolean result = mGestureDetector.onTouchEvent(event);
 
         // Detect drags to resize bugs
@@ -480,7 +475,7 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
                     if(mIsScaleMode) {
 
                         // Compute distance from center
-                        float dist = FlyTrapView.distance(mSelectedBug.getCenter(), new PointF(event.getX(), event.getY()));
+                        float dist = Utils.distance(mSelectedBug.getCenter(), new PointF(event.getX(), event.getY()));
 
                         // Apply this as the new radius
                         mSelectedBug.setRadius(dist);
@@ -519,7 +514,6 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        Log.d(TAG, "FlyTrap intercept touch " + ev);
 
         Rect hitRect = new Rect();
         mDoneLayout.getHitRect(hitRect);
@@ -634,48 +628,6 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         return false;
-    }
-
-    /***************************************************************************
-     *
-     * Static Helper Methods
-     *
-     */
-
-    /**
-     * Compute the distance between two points
-     *
-     * @param p1		the first point
-     * @param p2		the second point
-     * @return			the distance between the two points
-     */
-    public static float distance(PointF p1, PointF p2){
-        return (float) Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow(p2.y - p1.y,2));
-    }
-
-    /**
-     * Return whether or not 2 bugs are colliding
-     *
-     * @param b1    bug 1
-     * @param b2    bug 2
-     * @return      true if colliding, false if not
-     */
-    public static boolean collision(Bug b1, Bug b2){
-        float xDiff = b1.getCenter().x - b2.getCenter().x;
-        float yDiff = b1.getCenter().y - b2.getCenter().y;
-        float distSqr = xDiff*xDiff + yDiff*yDiff;
-        return distSqr < (b1.getRadius() + b2.getRadius()) * (b1.getRadius() + b2.getRadius());
-    }
-
-    /**
-     * Convert dp to px
-     *
-     * @param ctx
-     * @param dp
-     * @return
-     */
-    public static float dpToPx(Context ctx, float dp){
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, ctx.getResources().getDisplayMetrics());
     }
 
     /***************************************************************************

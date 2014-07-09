@@ -1,55 +1,72 @@
+/*
+ * Copyright (c) 2014 52inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.ftinc.flytrap;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
 
+import com.ftinc.flytrap.model.Delivery;
+import com.ftinc.flytrap.model.EmailDelivery;
 import com.ftinc.flytrap.model.Report;
+import com.ftinc.flytrap.util.Utils;
 import com.ftinc.flytrap.view.FlyTrapView;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by drew.heavner on 7/2/14.
  */
 public class FlyTrap extends Activity {
 
+    private Config mConfig;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Pull configuration
-        Config config;
         if(getIntent() != null && getIntent().getExtras() != null){
-            config = Config.createFromExtras(getIntent().getExtras());
-        }else{
-            throw new NullPointerException("You must provide a Config to the FlyTrap");
+            mConfig = Config.createFromExtras(getIntent().getExtras());
         }
 
+        // Make sure a configuration was loaded
+        if(mConfig == null)
+            throw new NullPointerException("You must provide a Config to the FlyTrap");
+
         // Create FlyTrapView
-        FlyTrapView view = new FlyTrapView(this, config);
+        FlyTrapView view = new FlyTrapView(this, mConfig);
         setContentView(view);
+
 
         view.setOnFlyTrapActionListener(new FlyTrapView.OnFlyTrapActionListener() {
             @Override
             public void onDone(Report report) {
-
-                // Generate Report to disk
-                report.generateReport();
-
-                // Handle generated report based on configuration
-
-
-                finish();
+                if(mConfig.deliverySystem != null){
+                    mConfig.deliverySystem.onReportGenerated(FlyTrap.this, report, new Delivery.OnReportHandler() {
+                        @Override
+                        public void onFinish() {
+                            finish();
+                        }
+                    });
+                }
             }
         });
 
@@ -69,7 +86,7 @@ public class FlyTrap extends Activity {
      */
     public static void startFlyTrap(Activity ctx){
         // Capture screen from the calling activity and store in a temporary file for later use
-        File rootScreenShot = captureRootScreenShot(ctx);
+        File rootScreenShot = Utils.captureRootScreenShot(ctx);
 
         if(rootScreenShot != null) {
 
@@ -98,7 +115,7 @@ public class FlyTrap extends Activity {
      */
     public static void startFlyTrap(Activity ctx, Config config){
         // Capture screen from the calling activity and store in a temporary file for later use
-        File rootScreenShot = captureRootScreenShot(ctx);
+        File rootScreenShot = Utils.captureRootScreenShot(ctx);
         if(rootScreenShot != null) {
 
             // Generate intent to display flytrap activity
@@ -113,50 +130,6 @@ public class FlyTrap extends Activity {
         }else{
             Toast.makeText(ctx, "Unable to capture screenshots, please try again.", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    /**
-     * Capture the root screenshot of a calling activity and store it
-     * in a temporary file to later use
-     *
-     * @param activity      the calling activity
-     * @return              the File object representation of the temporary image file stored
-     */
-    private static File captureRootScreenShot(Activity activity){
-        View decor = activity.getWindow().getDecorView();
-        decor.setDrawingCacheEnabled(true);
-
-        // Configure screenshot bounds
-        Bitmap decorBmp = decor.getDrawingCache();
-
-        // Create the screenshot per se
-        Bitmap screenShot = Bitmap.createBitmap(decorBmp, 0, 0,  decorBmp.getWidth(), decorBmp.getHeight());
-
-        // Recycle the intial bitmap
-        decorBmp.recycle();
-
-        // Disable drawing cache on the decor
-        decor.setDrawingCacheEnabled(false);
-
-        // Save the newly generated screenshot into a temporary variable
-        try {
-
-            // Create an image file name
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String imageFileName = "PNG_" + timeStamp + "_";
-            File cacheDir = activity.getCacheDir();
-            File tempFile = File.createTempFile(imageFileName, ".png", cacheDir);
-
-            // Write bitmap to file
-            boolean result = screenShot.compress(Bitmap.CompressFormat.PNG, 0, new FileOutputStream(tempFile));
-            if(result)
-                return tempFile;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
 
@@ -174,9 +147,11 @@ public class FlyTrap extends Activity {
          */
 
         public static final String ACCENT_COLOR = "accent_color";
+        public static final String ACTIVE_COLOR = "active_color";
         public static final String DEFAULT_RADIUS = "default_radius";
         public static final String CACHE_QUALITY = "drawing_cache_quality";
         public static final String ROOT_IMAGE_PATH = "root_image_path";
+        public static final String DELIVERY_SYSTEM = "delivery_system";
 
         /******************************************
          *
@@ -189,6 +164,12 @@ public class FlyTrap extends Activity {
          * and its items.
          */
         public int accentColor;
+
+        /**
+         * This configures the activated color of bug items when they are selected
+         * and activated
+         */
+        public int activeColor;
 
         /**
          * This configures the default radius of new bug items added to the
@@ -206,18 +187,22 @@ public class FlyTrap extends Activity {
          */
         public String rootImagePath;
 
-        /*
-         *
-         * Configurations that deal with uploading the report to the
-         * developer.
-         *
+        /**
+         * This is the delivery configuration that will handle sending the feedback reports
+         * to the developer
          */
-
+        public Delivery deliverySystem;
 
         /**
          * Empty Constructor
          */
         public Config(){}
+
+        /******************************************
+         *
+         * Helper Methods
+         *
+         */
 
         /**
          * Apply this configuration to an Intent meant to launch
@@ -227,9 +212,11 @@ public class FlyTrap extends Activity {
          */
         public void apply(Intent intent){
             intent.putExtra(ACCENT_COLOR, accentColor);
+            intent.putExtra(ACTIVE_COLOR, activeColor);
             intent.putExtra(DEFAULT_RADIUS, defaultRadius);
             intent.putExtra(CACHE_QUALITY, drawingCacheQuality);
             intent.putExtra(ROOT_IMAGE_PATH, rootImagePath);
+            intent.putExtra(DELIVERY_SYSTEM, deliverySystem);
         }
 
         /**
@@ -242,9 +229,11 @@ public class FlyTrap extends Activity {
         public static Config createFromExtras(Bundle xtras){
             Config config = new Config();
             config.accentColor = xtras.getInt(ACCENT_COLOR);
+            config.activeColor = xtras.getInt(ACTIVE_COLOR);
             config.defaultRadius = xtras.getFloat(DEFAULT_RADIUS);
             config.drawingCacheQuality = xtras.getInt(CACHE_QUALITY);
             config.rootImagePath = xtras.getString(ROOT_IMAGE_PATH);
+            config.deliverySystem = xtras.getParcelable(DELIVERY_SYSTEM);
             return config;
         }
 
@@ -257,10 +246,112 @@ public class FlyTrap extends Activity {
         public static Config createDefault(Context ctx){
             Config config = new Config();
             config.accentColor = ctx.getResources().getColor(android.R.color.holo_blue_light);
-            config.defaultRadius = FlyTrapView.dpToPx(ctx, 56);
+            config.defaultRadius = Utils.dpToPx(ctx, 56);
             config.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH;
+            config.deliverySystem = new EmailDelivery("support@email.com", "App Feedback", "");
             return config;
         }
+
+        /******************************************
+         *
+         * Builder Class
+         *
+         */
+
+        /**
+         * The builder class that provides an easy way to construct
+         * FlyTrap configurations
+         *
+         */
+        public static class Builder{
+
+            // The object being built
+            private Config config;
+
+            /**
+             * Create a new instance of the Config.Builder
+             * to construct a configuration for FlyTrap
+             */
+            public Builder(){
+                config = new Config();
+            }
+
+            /******************************************
+             *
+             * Build Methods
+             *
+             */
+
+            /**
+             * Set the accent color used to accent the bug punchouts
+             *
+             * @param color     the color to use
+             * @return          self for chaining
+             */
+            public Builder setAccentColor(int color){
+                config.accentColor = color;
+                return this;
+            }
+
+            /**
+             * Set teh active color to use when the user selects one of the bug
+             * annotations.
+             *
+             * @param color     the active color to use
+             * @return          self for chaining
+             */
+            public Builder setActiveColor(int color){
+                config.activeColor = color;
+                return this;
+            }
+
+            /**
+             * Set the default radius of the bug feedbacks when the user taps a location on the
+             * feedback shade.
+             *
+             * @param radius        the radius of the feedback punch hole
+             * @return              self for chaining
+             */
+            public Builder setRadius(float radius){
+                config.defaultRadius = radius;
+                return this;
+            }
+
+            /**
+             * Set the quality of the screenshots taken from the application
+             * and feedback shade.
+             *
+             * @param quality   {@link View#DRAWING_CACHE_QUALITY_LOW} or {@link View#DRAWING_CACHE_QUALITY_HIGH} or {@link View#DRAWING_CACHE_QUALITY_AUTO}
+             * @return          self for chaining
+             */
+            public Builder setScreenshotQuality(int quality){
+                config.drawingCacheQuality = quality;
+                return this;
+            }
+
+            /**
+             * Set the delivery system to use once the user has completed entering feedback
+             *
+             * @param deliverySystem        the delivery system to use
+             * @return                      self for chaining
+             */
+            public Builder setDeliverySystem(Delivery deliverySystem){
+                config.deliverySystem = deliverySystem;
+                return this;
+            }
+
+            /**
+             * Build and return the configuration for FlyTrap
+             *
+             * @return      the FlyTrap configuration
+             */
+            public Config build(){
+                return config;
+            }
+
+
+        }
+
 
     }
 
