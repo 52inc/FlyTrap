@@ -26,22 +26,24 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -67,8 +69,19 @@ import java.util.List;
  *
  * Created by drew.heavner on 7/2/14.
  */
-public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGestureListener{
+public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGestureListener, View.OnClickListener {
     private static final String TAG = FlyTrapView.class.getName();
+
+    /***************************************************************************
+     *
+     * Constants
+     *
+     */
+
+    private static final long ANIM_DURATION = 3000L;
+    private static final long ACTION_ANIM_DURATION = 200L;
+    private static final long SHEET_ANIM_DURATION = 300L;
+    private static final float BOTTOMSHEET_HEIGHT = 250f; // 250dp
 
     /***************************************************************************
      *
@@ -76,10 +89,8 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
      *
      */
 
-    private static final long ANIM_DURATION = 3000L;
-    private static final long ACTION_ANIM_DURATION = 200L;
-
     private GestureDetector mGestureDetector;
+    private InputMethodManager mImm;
 
     private List<Bug> mBugs;
     private Bug mActiveBug;
@@ -91,9 +102,11 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
     private Paint mAccentPaint, mActivePaint;
 
     private LinearLayout mDoneLayout;
+    private LinearLayout mCommentSheet;
+    private EditText mCommentField;
+    private TextView mCommentDone;
 
     private OnFlyTrapActionListener mActionListener;
-
     private FlyTrap.Config mConfig;
 
     /***************************************************************************
@@ -143,9 +156,16 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
      * Initialize the view
      */
     private void init(){
+        // Enable custom viewgroup drawing
         setWillNotDraw(false);
 
-        // Create and add the 'Done' action to the view
+        // Initialize gesture detector
+        mGestureDetector = new GestureDetector(getContext(), this);
+
+        // Get the input method manager
+        mImm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // Setup the done text view for the done button
         TextView doneView = new TextView(getContext());
         doneView.setText("Done");
         doneView.setTextColor(Color.WHITE);
@@ -154,80 +174,46 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
         doneView.setShadowLayer(2, 0, 1, Color.LTGRAY);
         doneView.setGravity(Gravity.CENTER);
 
+        // Setup the forward arrow for the done button
         ImageView nextImageView = new ImageView(getContext());
         nextImageView.setImageResource(R.drawable.ic_action_next);
 
+        // Setup the Done button for the user to indicate that they have finished creating their feedback report
         mDoneLayout = new LinearLayout(getContext());
         mDoneLayout.setBackgroundResource(R.drawable.done_selector);
         mDoneLayout.setOrientation(LinearLayout.HORIZONTAL);
         mDoneLayout.addView(doneView);
         mDoneLayout.addView(nextImageView);
-
         int padding = (int) Utils.dpToPx(getContext(), 16);
         mDoneLayout.setPadding(padding, padding, padding, padding);
         mDoneLayout.setGravity(Gravity.CENTER_VERTICAL);
-
-        mDoneLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "Done! Progressing to the next stage of FlyTrap");
-
-                // Mask screen shot
-                setDrawingCacheEnabled(true);
-                Bitmap flyTrapMask = Bitmap.createBitmap(getDrawingCache());
-                setDrawingCacheEnabled(false);
-
-                // Save the newly generated screenshot into a temporary variable
-                try {
-
-                    // Create an image file name
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                    String imageFileName = "PNG_" + timeStamp + "_";
-                    File cacheDir = getContext().getCacheDir();
-                    File tempFile = File.createTempFile(imageFileName, ".png", cacheDir);
-
-                    // Write bitmap to file
-                    boolean result = flyTrapMask.compress(Bitmap.CompressFormat.PNG, 0, new FileOutputStream(tempFile));
-                    if(result){
-
-                        // Generate screen of the originating activity
-                        Report report = new Report.Builder()
-                                .addBugs(mBugs)
-                                .setBaseScreenshot(mConfig.rootImagePath)
-                                .setShadeScreenshot(tempFile.getPath())
-                                .build();
-
-                        // finish activity
-                        if(mActionListener != null) mActionListener.onDone(report);
-
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
+        mDoneLayout.setOnClickListener(this);
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-
         addView(mDoneLayout, params);
 
-        // Initialize gesture detector
-        mGestureDetector = new GestureDetector(getContext(), this);
+        // Setup the bottom sheet comment entry panel
+        mCommentSheet = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.layout_comment_bottomsheet, null, false);
+        mCommentSheet.setVisibility(View.GONE);
+        mCommentField = (EditText) mCommentSheet.findViewById(R.id.comment_field);
+        mCommentDone = (TextView) mCommentSheet.findViewById(R.id.action_done);
+        LayoutParams commentSheetParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        commentSheetParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        addView(mCommentSheet, commentSheetParams);
 
         // Initialize bug container
         mBugs = new ArrayList<>();
 
-        // Setup the accent paint
+        // Define the accent paint style
         mAccentPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mAccentPaint.setStyle(Paint.Style.STROKE);
         mAccentPaint.setStrokeWidth(5);
 
+        // Define the active state paint object
         mActivePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mActivePaint.setStyle(Paint.Style.STROKE);
-        mActivePaint.setStrokeWidth(5);
+        mActivePaint.setStrokeWidth(6.5f);
         mActivePaint.setColor(Color.CYAN);
 
     }
@@ -305,13 +291,12 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
     private void renderActiveItem(Canvas canvas){
         if(mActiveBug != null){
 
-            float radius = mActiveBug.getRadius() + 5;
+            float radius = mActiveBug.getRadius(); // + 5;
             float x = mActiveBug.getCenter().x;
             float y = mActiveBug.getCenter().y;
             RectF oval = new RectF(x - radius, y - radius, x + radius, y + radius);
 
             canvas.drawArc(oval, mActiveStartAngle, mActiveSweepAngle, false, mActivePaint);
-
         }
     }
 
@@ -329,17 +314,18 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
         float y = ev.getY();
 
         for(Bug bug: mBugs){
-
             float dist = Utils.distance(new PointF(x, y), bug.getCenter());
             if(dist < bug.getRadius()){
                 return bug;
             }
-
         }
 
         return null;
     }
 
+    /**
+     * Start the active bug animation
+     */
     private void startActiveAnimations(){
         stopActiveAnimation();
 
@@ -375,6 +361,9 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
 
     }
 
+    /**
+     * Stop the active animation
+     */
     private void stopActiveAnimation(){
         if(mActiveSet != null) {
             mActiveSet.end();
@@ -383,6 +372,13 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
 
     }
 
+    /**
+     * Check collision of a bug with the rest of the existing bugs and if a collision exists
+     * return true and then continue to chain absorption until collisions cease to exist
+     *
+     * @param bug   the bug to check for collisions for
+     * @return      true if collision exists, false if no collisions exist
+     */
     public boolean collideAndAbsorb(final Bug bug){
         if(mBugs.contains(bug)) mBugs.remove(bug);
 
@@ -438,14 +434,112 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
         return false;
     }
 
+    /**
+     * Show the comment bottom sheet
+     */
+    private void showCommentBottomSheet(){
+        float height = Utils.dpToPx(getContext(), BOTTOMSHEET_HEIGHT);
+
+        if(mCommentSheet.getVisibility() == View.GONE) {
+
+            // Create animator to slide sheet up from the bottom
+            ObjectAnimator transY = ObjectAnimator.ofFloat(mCommentSheet, "translationY", height, 0);
+            transY.setDuration(SHEET_ANIM_DURATION);
+            transY.setInterpolator(new DecelerateInterpolator());
+            transY.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    mCommentSheet.setVisibility(View.VISIBLE);
+
+                    // Add new action listeners for the bottom sheet's views
+                    mCommentField.setText(mActiveBug.getComment());
+                    mCommentField.setSelection(mActiveBug.getComment().length());
+                    mCommentDone.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            // Update the active bug's comment text with what was entered
+                            String comment = mCommentField.getText().toString();
+                            mActiveBug.setComment(comment);
+
+                            // End the active mode
+                            mActiveBug = null;
+                            stopActiveAnimation();
+                            hideCommentBottomSheet();
+
+                            // Hide the keyboard
+                            mImm.hideSoftInputFromWindow(mCommentDone.getWindowToken(), 0);
+                        }
+                    });
+
+                }
+            });
+
+            transY.start();
+
+        }else{
+
+            // Add new action listeners for the bottom sheet's views
+            mCommentField.setText(mActiveBug.getComment());
+            mCommentDone.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    // Update the active bug's comment text with what was entered
+                    String comment = mCommentField.getText().toString();
+                    mCommentField.setSelection(mActiveBug.getComment().length());
+                    mActiveBug.setComment(comment);
+
+                    // End the active mode
+                    mActiveBug = null;
+                    stopActiveAnimation();
+                    hideCommentBottomSheet();
+
+                    // Hide the keyboard
+                    mImm.hideSoftInputFromWindow(mCommentDone.getWindowToken(), 0);
+                }
+            });
+
+        }
+
+    }
+
+    /**
+     * Hide the comment bottom sheet
+     */
+    private void hideCommentBottomSheet(){
+        float height = Utils.dpToPx(getContext(), BOTTOMSHEET_HEIGHT);
+
+        // Create animator to slide the sheet down off the screen
+        ObjectAnimator transY = ObjectAnimator.ofFloat(mCommentSheet, "translationY", 0, height);
+        transY.setDuration(SHEET_ANIM_DURATION);
+        transY.setInterpolator(new AccelerateInterpolator());
+        transY.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mCommentSheet.setVisibility(View.GONE);
+            }
+        });
+
+        transY.start();
+    }
+
     /***************************************************************************
      *
      * Override Methods
      *
      */
 
+    /*
+     *
+     * The Touch Variables
+     *
+     */
+
     private Bug mSelectedBug;
     private PointF mLastPos;
+    private PointF mStartPos;
+    private float mStartRadius;
     private boolean mIsScaleMode = false;
 
 
@@ -460,10 +554,15 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
                 // Check to see if the down state was in a bug object
                 for(Bug bug: mBugs){
                     if(bug.collidesWith(event.getX(), event.getY())){
-                        mIsScaleMode = mActiveBug == bug;
+                        if(mActiveBug != null && mActiveBug.getId() != bug.getId())
+                            continue;
+
+                        mIsScaleMode = mActiveBug != null ? mActiveBug.getId() == bug.getId() : false;
                         mSelectedBug = bug;
-                        mLastPos = new PointF(event.getX(), event.getY());
+                        mLastPos = mStartPos = new PointF(event.getX(), event.getY());
+                        mStartRadius = bug.getRadius();
                         return true;
+
                     }
                 }
 
@@ -475,10 +574,10 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
                     if(mIsScaleMode) {
 
                         // Compute distance from center
-                        float dist = Utils.distance(mSelectedBug.getCenter(), new PointF(event.getX(), event.getY()));
+                        float dY = event.getY() - mStartPos.y;
 
                         // Apply this as the new radius
-                        mSelectedBug.setRadius(dist);
+                        mSelectedBug.setRadius(mStartRadius + dY);
 
                         invalidate();
                         return true;
@@ -517,7 +616,7 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
 
         Rect hitRect = new Rect();
         mDoneLayout.getHitRect(hitRect);
-        if(hitRect.contains((int)ev.getX(), (int)ev.getY())){
+        if(hitRect.contains((int)ev.getX(), (int)ev.getY()) || mActiveBug != null){
             return false;
         }
 
@@ -574,23 +673,80 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
     public boolean onSingleTapUp(MotionEvent e) {
 
         // Check to see if bug already exists
-        if(didTouchBug(e) == null) {
+        Bug touched = didTouchBug(e);
+        if(touched == null) {
 
-            // Get the touch point
-            PointF touch = new PointF(e.getX(), e.getY());
+            if(mActiveBug == null) {
 
-            // Generate the bug
-            Bug bug = new Bug.Builder(0)
-                    .setCenter(touch)
-                    .setRadius(mConfig.defaultRadius)
-                    .setAccentColor(mConfig.accentColor)
-                    .build();
+                // Get the touch point
+                PointF touch = new PointF(e.getX(), e.getY());
 
-            // Insert bug report into manager
-            addBug(bug);
+                // Generate the bug
+                Bug bug = new Bug.Builder(mBugs.size())
+                        .setCenter(touch)
+                        .setRadius(mConfig.defaultRadius)
+                        .setAccentColor(mConfig.accentColor)
+                        .build();
+
+                // Insert bug report into manager
+                addBug(bug);
+
+            }else{
+
+                // Update the active bug's comment text with what was entered
+                String comment = mCommentField.getText().toString();
+                mActiveBug.setComment(comment);
+
+                // End the active mode
+                mActiveBug = null;
+                stopActiveAnimation();
+                hideCommentBottomSheet();
+
+                // Hide the keyboard
+                mImm.hideSoftInputFromWindow(mCommentDone.getWindowToken(), 0);
+            }
+
+            return true;
+        }else{
+            // Start active mode for this bug
+            // Check for existing active bug
+            if(mActiveBug != null && mActiveBug.getId() == touched.getId()){
+
+                // De-activate active mode
+                String comment = mCommentField.getText().toString();
+                mActiveBug.setComment(comment);
+
+                // End the active mode
+                mActiveBug = null;
+                stopActiveAnimation();
+                hideCommentBottomSheet();
+
+                // Hide the keyboard
+                mImm.hideSoftInputFromWindow(mCommentDone.getWindowToken(), 0);
+
+            }else {
+
+                // If active bug isn't null, save the comment entry
+                if(mActiveBug != null){
+                    mActiveBug.setComment(mCommentField.getText().toString());
+                }
+
+                // Set the active bug
+                mActiveBug = touched;
+
+                // Log selection
+                Log.d(TAG, "Bug activated: " + mActiveBug.getId());
+
+                // Animate in and display the bug actions
+                startActiveAnimations();
+
+                // Show the comment bottom sheet
+                showCommentBottomSheet();
+            }
+
             return true;
         }
-        return false;
+        //return false;
     }
 
     @Override
@@ -599,35 +755,56 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
     }
 
     @Override
-    public void onLongPress(MotionEvent e) {
-
-        // Find collision of a bug
-        Bug bug = didTouchBug(e);
-        if(bug != null){
-            // Check for existing active bug
-            if(mActiveBug != null)
-                mActiveBug = null;
-
-            // Set the active bug
-            mActiveBug = bug;
-
-            // Log selection
-            Log.d(TAG, "Bug selected: " + bug);
-
-            // Animate in and display the bug actions
-            startActiveAnimations();
-
-
-        }else{
-            mActiveBug = null;
-            stopActiveAnimation();
-        }
-
-    }
+    public void onLongPress(MotionEvent e) {}
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         return false;
+    }
+
+    /**
+     * Handle the user pressing the done button to indicate that they have finished creating a
+     * feedback report
+     *
+     * @param v     the view clicked
+     */
+    @Override
+    public void onClick(View v) {
+        Log.d(TAG, "Done! Progressing to the next stage of FlyTrap");
+
+        // Mask screen shot
+        setDrawingCacheEnabled(true);
+        Bitmap flyTrapMask = Bitmap.createBitmap(getDrawingCache());
+        setDrawingCacheEnabled(false);
+
+        // Save the newly generated screenshot into a temporary variable
+        try {
+
+            // Create an image file name
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = "PNG_" + timeStamp + "_";
+            File cacheDir = getContext().getCacheDir();
+            File tempFile = File.createTempFile(imageFileName, ".png", cacheDir);
+
+            // Write bitmap to file
+            boolean result = flyTrapMask.compress(Bitmap.CompressFormat.PNG, 0, new FileOutputStream(tempFile));
+            if(result){
+
+                // Generate screen of the originating activity
+                Report report = new Report.Builder()
+                        .addBugs(mBugs)
+                        .setBaseScreenshot(mConfig.rootImagePath)
+                        .setShadeScreenshot(tempFile.getPath())
+                        .build();
+
+                // finish activity
+                if(mActionListener != null) mActionListener.onDone(report);
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /***************************************************************************

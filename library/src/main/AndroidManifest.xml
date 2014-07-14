@@ -9,6 +9,7 @@
         <activity android:name=".FlyTrap"
             android:label="@string/app_name"
             android:theme="@style/Theme.Flytrap"
+            android:windowSoftInputMode="adjustResize"
             />
 
     </application>

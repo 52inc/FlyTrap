@@ -84,7 +84,7 @@ public class Bug {
     private PointF center;
     private float radius;
     private int accentColor;
-    private String comment;
+    private String comment = "";
 
     private Paint paint;
 

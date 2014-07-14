@@ -36,7 +36,11 @@ import java.io.File;
  */
 public class FlyTrap extends Activity {
 
+    /*
+     * Configuration variable
+     */
     private Config mConfig;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +59,10 @@ public class FlyTrap extends Activity {
         FlyTrapView view = new FlyTrapView(this, mConfig);
         setContentView(view);
 
-
+        /*
+         * Setup the action listener that is called when the user presses the done button
+         * to indicate that they have finished creating the feedback report
+         */
         view.setOnFlyTrapActionListener(new FlyTrapView.OnFlyTrapActionListener() {
             @Override
             public void onDone(Report report) {
@@ -80,9 +87,9 @@ public class FlyTrap extends Activity {
      */
 
     /**
-     * Start a default flytrack instance
+     * Start a default FlyTrap instance with a default configuration
      *
-     * @param ctx
+     * @param ctx   the Activity context used to launch the activity
      */
     public static void startFlyTrap(Activity ctx){
         // Capture screen from the calling activity and store in a temporary file for later use
@@ -108,7 +115,7 @@ public class FlyTrap extends Activity {
     }
 
     /**
-     * Start a flytrap instance with the supplied configuration
+     * Start a FlyTrap instance with the supplied configuration
      *
      * @param ctx           the application context
      * @param config        the fly trap configuration

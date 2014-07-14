@@ -17,31 +17,31 @@
     <shared>
       <config />
     </shared>
+    <layouts>
+      <layout url="file://$PROJECT_DIR$/library/src/main/res/layout/layout_comment_bottomsheet.xml">
+        <config>
+          <theme>@style/Theme.Flytrap</theme>
+        </config>
+      </layout>
+    </layouts>
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.ftinc.flytrap.example" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9cf4dd76-28f9-4f1b-93d4-31162649fe8a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/52inc_Apache2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/APIDelivery.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Delivery.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/EmailDelivery.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/util/Utils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/okhttp_2_0_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/okio_1_0_0.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Comment.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/library/src/main/res/drawable/done_selector_light.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/library/src/main/res/layout/layout_comment_bottomsheet.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_19_1_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/okhttp_2_0_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/okio_1_0_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_19_1_0.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/library/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Bug.java" afterPath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Bug.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/FlyTrap.java" afterPath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/FlyTrap.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/src/main/java/com/ftinc/flytrap/example/FlyTrapActivity.java" afterPath="$PROJECT_DIR$/example/src/main/java/com/ftinc/flytrap/example/FlyTrapActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/view/FlyTrapView.java" afterPath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/view/FlyTrapView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Report.java" afterPath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Report.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_19_1_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_19_1_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library/build.gradle" afterPath="$PROJECT_DIR$/library/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/example.iml" afterPath="$PROJECT_DIR$/example/example.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library/library.iml" afterPath="$PROJECT_DIR$/library/library.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/util/Utils.java" afterPath="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/util/Utils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/library/src/main/res/values/colors.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FlyTrap.iws" />
@@ -65,48 +65,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="FlyTrap.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="FlyTrap.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/FlyTrap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2567" max-vertical-offset="5460">
-              <caret line="46" column="52" selection-start-line="46" selection-start-column="52" selection-end-line="46" selection-end-column="52" />
+            <state vertical-scroll-proportion="-1.7996966" vertical-offset="3782" max-vertical-offset="5100">
+              <caret line="121" column="7" selection-start-line="121" selection-start-column="7" selection-end-line="121" selection-end-column="7" />
               <folding>
-                <element signature="e#0#11357#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-                <element signature="e#1763#2257#0" expanded="true" />
-                <element signature="e#2012#2213#0" expanded="true" />
-                <element signature="e#2190#2191#0" expanded="true" />
-                <element signature="e#2246#2247#0" expanded="true" />
-                <element signature="e#8729#8730#0" expanded="true" />
-                <element signature="e#8782#8783#0" expanded="true" />
-                <element signature="e#11287#11288#0" expanded="true" />
-                <element signature="e#11332#11333#0" expanded="true" />
+                <element signature="e#1997#2491#0" expanded="true" />
+                <element signature="e#2246#2447#0" expanded="true" />
+                <element signature="e#2424#2425#0" expanded="true" />
+                <element signature="e#2480#2481#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EmailDelivery.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/EmailDelivery.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.46509862" vertical-offset="812" max-vertical-offset="2385">
-              <caret line="95" column="75" selection-start-line="95" selection-start-column="75" selection-end-line="95" selection-end-column="75" />
-              <folding>
-                <element signature="e#0#4406#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-                <element signature="e#3653#3654#0" expanded="true" />
-                <element signature="e#3695#3696#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/library/src/main/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
-              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -114,21 +83,76 @@
       <file leaf-file-name="FlyTrapView.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/view/FlyTrapView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1976" max-vertical-offset="8790">
-              <caret line="196" column="71" selection-start-line="196" selection-start-column="71" selection-end-line="196" selection-end-column="71" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="9737" max-vertical-offset="11250">
+              <caret line="557" column="37" selection-start-line="557" selection-start-column="37" selection-end-line="557" selection-end-column="37" />
               <folding>
-                <element signature="e#0#19961#0" expanded="true" />
+                <element signature="e#15431#16671#0" expanded="true" />
+                <element signature="e#15899#16636#0" expanded="true" />
+                <element signature="e#16613#16614#0" expanded="true" />
+                <element signature="e#16656#16657#0" expanded="true" />
+                <element signature="e#16893#17608#0" expanded="true" />
+                <element signature="e#17593#17594#0" expanded="true" />
+                <element signature="e#18100#18294#0" expanded="true" />
+                <element signature="e#18283#18284#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FlyTrapActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/example/src/main/java/com/ftinc/flytrap/example/FlyTrapActivity.java">
+      <file leaf-file-name="colors.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/library/src/main/res/values/colors.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="720">
-              <caret line="19" column="51" selection-start-line="19" selection-start-column="51" selection-end-line="19" selection-end-column="51" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="480">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Bug.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Bug.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1155" max-vertical-offset="2985">
+              <caret line="86" column="32" selection-start-line="86" selection-start-column="32" selection-end-line="86" selection-end-column="32" />
+              <folding>
+                <element signature="docComment;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#fromJson#0;class#Bug#0" expanded="false" />
+                <element signature="method#fromJson#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;field#KEY_ID#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;field#id#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#Bug#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#Bug#1;class#Bug#0" expanded="false" />
+                <element signature="method#Bug#1;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#init#0;class#Bug#0" expanded="false" />
+                <element signature="method#init#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#getId#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#getCenter#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#setCenter#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#getCenterX#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#setCenterX#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#getCenterY#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#setCenterY#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#getRadius#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#setRadius#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#getAccentColor#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#setAccentColor#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#setComment#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#getComment#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#inflateJson#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#pointToJson#0;class#Bug#0" expanded="false" />
+                <element signature="method#pointToJson#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#jsonToPoint#0;class#Bug#0" expanded="false" />
+                <element signature="method#jsonToPoint#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;class#Builder#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#Builder#0;class#Builder#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#setCenter#0;class#Builder#0;class#Bug#0" expanded="false" />
+                <element signature="method#setCenter#0;class#Builder#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#setRadius#0;class#Builder#0;class#Bug#0" expanded="false" />
+                <element signature="method#setRadius#0;class#Builder#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#setAccentColor#0;class#Builder#0;class#Bug#0" expanded="false" />
+                <element signature="method#setAccentColor#0;class#Builder#0;class#Bug#0" expanded="false" />
+                <element signature="docComment;method#build#0;class#Builder#0;class#Bug#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1699,24 +1723,26 @@
         <option value="$PROJECT_DIR$/example/src/main/res/layout/activity_fly_trap.xml" />
         <option value="$PROJECT_DIR$/example/build.gradle" />
         <option value="$PROJECT_DIR$/library/src/main/res/values/styles.xml" />
-        <option value="$PROJECT_DIR$/example/src/main/res/values/colors.xml" />
-        <option value="$PROJECT_DIR$/library/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/library/src/main/res/drawable/done_selector.xml" />
         <option value="$PROJECT_DIR$/example/.gitignore" />
         <option value="$PROJECT_DIR$/library/.gitignore" />
         <option value="$PROJECT_DIR$/example/src/main/res/menu/fly_trap.xml" />
         <option value="$PROJECT_DIR$/library/src/main/res/layout/activity_flytrap.xml" />
         <option value="$PROJECT_DIR$/library/build.gradle" />
-        <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/util/Utils.java" />
-        <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Report.java" />
-        <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Bug.java" />
         <option value="$PROJECT_DIR$/example/src/main/java/com/ftinc/flytrap/example/FlyTrapActivity.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Delivery.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/APIDelivery.java" />
-        <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/FlyTrap.java" />
-        <option value="$PROJECT_DIR$/library/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/view/FlyTrapView.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/EmailDelivery.java" />
+        <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Report.java" />
+        <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/util/Utils.java" />
+        <option value="$PROJECT_DIR$/library/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/example/src/main/res/values/colors.xml" />
+        <option value="$PROJECT_DIR$/library/src/main/res/values/colors.xml" />
+        <option value="$PROJECT_DIR$/library/src/main/res/drawable/done_selector_light.xml" />
+        <option value="$PROJECT_DIR$/library/src/main/res/layout/layout_comment_bottomsheet.xml" />
+        <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Bug.java" />
+        <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/view/FlyTrapView.java" />
+        <option value="$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/FlyTrap.java" />
       </list>
     </option>
   </component>
@@ -1750,8 +1776,8 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1803,6 +1829,66 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FlyTrap" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FlyTrap" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FlyTrap" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FlyTrap" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2070,11 +2156,37 @@
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FlyTrap" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FlyTrap" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="example" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2122,6 +2234,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/library/src/main/res/drawable" />
       <recent name="$PROJECT_DIR$/example/src/main/res/values" />
     </key>
   </component>
@@ -2305,7 +2418,11 @@
       <created>1404852629366</created>
       <updated>1404852629366</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Very close to final version&#10;&#10; - Delivery system created&#10;    - This is an object that dictates how the feedback information is fed to the developer&#10;    &#10; - Added all the static helper function into Utils.java class&#10; &#10; - Report can now zip all the feedback information">
+      <created>1404926504230</created>
+      <updated>1404926504230</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2315,6 +2432,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286004" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290938" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296146" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2336,7 +2454,6 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -2360,51 +2477,13 @@
     <MESSAGE value="Importing Github'd project into AS" />
     <MESSAGE value="Create example module to demo/test the FlyTrap view&#10;" />
     <MESSAGE value="Working on 'Report' Generation into a compiled zip file to be sent to the developer,&#10;- Later a revision of this will format a HTTP request to send the data off to a server or any other methods delivering bug feedback reports to the developer.&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on 'Report' Generation into a compiled zip file to be sent to the developer,&#10;- Later a revision of this will format a HTTP request to send the data off to a server or any other methods delivering bug feedback reports to the developer.&#10;" />
+    <MESSAGE value="Very close to final version&#10;&#10; - Delivery system created&#10;    - This is an object that dictates how the feedback information is fed to the developer&#10;    &#10; - Added all the static helper function into Utils.java class&#10; &#10; - Report can now zip all the feedback information" />
+    <option name="LAST_COMMIT_MESSAGE" value="Very close to final version&#10;&#10; - Delivery system created&#10;    - This is an object that dictates how the feedback information is fed to the developer&#10;    &#10; - Added all the static helper function into Utils.java class&#10; &#10; - Report can now zip all the feedback information" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/FlyTrap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="4095">
-          <caret line="46" column="29" selection-start-line="46" selection-start-column="29" selection-end-line="46" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#11357#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#1763#2257#0" expanded="true" />
-            <element signature="e#2012#2213#0" expanded="true" />
-            <element signature="e#2190#2191#0" expanded="true" />
-            <element signature="e#2246#2247#0" expanded="true" />
-            <element signature="e#8729#8730#0" expanded="true" />
-            <element signature="e#8782#8783#0" expanded="true" />
-            <element signature="e#11287#11288#0" expanded="true" />
-            <element signature="e#11332#11333#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Report.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1530" max-vertical-offset="3330">
-          <caret line="174" column="0" selection-start-line="174" selection-start-column="0" selection-end-line="174" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#10988#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/view/FlyTrapView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2805" max-vertical-offset="10515">
-          <caret line="187" column="68" selection-start-line="187" selection-start-column="68" selection-end-line="187" selection-end-column="68" />
-          <folding>
-            <element signature="e#0#19961#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Bug.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="930" max-vertical-offset="6075">
@@ -2434,13 +2513,10 @@
             <element signature="docComment;method#setComment#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#getComment#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#inflateJson#0;class#Bug#0" expanded="false" />
-            <element signature="method#inflateJson#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#pointToJson#0;class#Bug#0" expanded="false" />
             <element signature="method#pointToJson#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#jsonToPoint#0;class#Bug#0" expanded="false" />
             <element signature="method#jsonToPoint#0;class#Bug#0" expanded="false" />
-            <element signature="docComment;method#collidesWith#0;class#Bug#0" expanded="false" />
-            <element signature="method#collidesWith#0;class#Bug#0" expanded="false" />
             <element signature="docComment;class#Builder#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#Builder#0;class#Builder#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#setCenter#0;class#Builder#0;class#Bug#0" expanded="false" />
@@ -2459,16 +2535,10 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="4095">
           <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
           <folding>
-            <element signature="e#0#11357#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#1763#2257#0" expanded="true" />
-            <element signature="e#2012#2213#0" expanded="true" />
-            <element signature="e#2190#2191#0" expanded="true" />
-            <element signature="e#2246#2247#0" expanded="true" />
-            <element signature="e#8729#8730#0" expanded="true" />
-            <element signature="e#8782#8783#0" expanded="true" />
-            <element signature="e#11287#11288#0" expanded="true" />
-            <element signature="e#11332#11333#0" expanded="true" />
+            <element signature="e#1997#2491#0" expanded="true" />
+            <element signature="e#2246#2447#0" expanded="true" />
+            <element signature="e#2424#2425#0" expanded="true" />
+            <element signature="e#2480#2481#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2477,9 +2547,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="1785">
           <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#10988#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2488,7 +2556,14 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="7005" max-vertical-offset="10050">
           <caret line="467" column="37" selection-start-line="467" selection-start-column="37" selection-end-line="467" selection-end-column="37" />
           <folding>
-            <element signature="e#0#19961#0" expanded="true" />
+            <element signature="e#15431#16671#0" expanded="true" />
+            <element signature="e#15899#16636#0" expanded="true" />
+            <element signature="e#16613#16614#0" expanded="true" />
+            <element signature="e#16656#16657#0" expanded="true" />
+            <element signature="e#16893#17608#0" expanded="true" />
+            <element signature="e#17593#17594#0" expanded="true" />
+            <element signature="e#18100#18294#0" expanded="true" />
+            <element signature="e#18283#18284#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2522,13 +2597,10 @@
             <element signature="docComment;method#setComment#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#getComment#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#inflateJson#0;class#Bug#0" expanded="false" />
-            <element signature="method#inflateJson#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#pointToJson#0;class#Bug#0" expanded="false" />
             <element signature="method#pointToJson#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#jsonToPoint#0;class#Bug#0" expanded="false" />
             <element signature="method#jsonToPoint#0;class#Bug#0" expanded="false" />
-            <element signature="docComment;method#collidesWith#0;class#Bug#0" expanded="false" />
-            <element signature="method#collidesWith#0;class#Bug#0" expanded="false" />
             <element signature="docComment;class#Builder#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#Builder#0;class#Builder#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#setCenter#0;class#Builder#0;class#Bug#0" expanded="false" />
@@ -2547,16 +2619,10 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3570">
           <caret line="174" column="51" selection-start-line="174" selection-start-column="51" selection-end-line="174" selection-end-column="51" />
           <folding>
-            <element signature="e#0#11357#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#1763#2257#0" expanded="true" />
-            <element signature="e#2012#2213#0" expanded="true" />
-            <element signature="e#2190#2191#0" expanded="true" />
-            <element signature="e#2246#2247#0" expanded="true" />
-            <element signature="e#8729#8730#0" expanded="true" />
-            <element signature="e#8782#8783#0" expanded="true" />
-            <element signature="e#11287#11288#0" expanded="true" />
-            <element signature="e#11332#11333#0" expanded="true" />
+            <element signature="e#1997#2491#0" expanded="true" />
+            <element signature="e#2246#2447#0" expanded="true" />
+            <element signature="e#2424#2425#0" expanded="true" />
+            <element signature="e#2480#2481#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2572,9 +2638,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="1785">
           <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#10988#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2583,7 +2647,14 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2430" max-vertical-offset="8940">
           <caret line="162" column="62" selection-start-line="162" selection-start-column="62" selection-end-line="162" selection-end-column="62" />
           <folding>
-            <element signature="e#0#19961#0" expanded="true" />
+            <element signature="e#15431#16671#0" expanded="true" />
+            <element signature="e#15899#16636#0" expanded="true" />
+            <element signature="e#16613#16614#0" expanded="true" />
+            <element signature="e#16656#16657#0" expanded="true" />
+            <element signature="e#16893#17608#0" expanded="true" />
+            <element signature="e#17593#17594#0" expanded="true" />
+            <element signature="e#18100#18294#0" expanded="true" />
+            <element signature="e#18283#18284#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2593,16 +2664,10 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3570">
           <caret line="174" column="51" selection-start-line="174" selection-start-column="51" selection-end-line="174" selection-end-column="51" />
           <folding>
-            <element signature="e#0#11357#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#1763#2257#0" expanded="true" />
-            <element signature="e#2012#2213#0" expanded="true" />
-            <element signature="e#2190#2191#0" expanded="true" />
-            <element signature="e#2246#2247#0" expanded="true" />
-            <element signature="e#8729#8730#0" expanded="true" />
-            <element signature="e#8782#8783#0" expanded="true" />
-            <element signature="e#11287#11288#0" expanded="true" />
-            <element signature="e#11332#11333#0" expanded="true" />
+            <element signature="e#1997#2491#0" expanded="true" />
+            <element signature="e#2246#2447#0" expanded="true" />
+            <element signature="e#2424#2425#0" expanded="true" />
+            <element signature="e#2480#2481#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2618,9 +2683,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="1785">
           <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#10988#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2629,7 +2692,14 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2430" max-vertical-offset="8940">
           <caret line="162" column="62" selection-start-line="162" selection-start-column="62" selection-end-line="162" selection-end-column="62" />
           <folding>
-            <element signature="e#0#19961#0" expanded="true" />
+            <element signature="e#15431#16671#0" expanded="true" />
+            <element signature="e#15899#16636#0" expanded="true" />
+            <element signature="e#16613#16614#0" expanded="true" />
+            <element signature="e#16656#16657#0" expanded="true" />
+            <element signature="e#16893#17608#0" expanded="true" />
+            <element signature="e#17593#17594#0" expanded="true" />
+            <element signature="e#18100#18294#0" expanded="true" />
+            <element signature="e#18283#18284#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2639,16 +2709,10 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2130" max-vertical-offset="3495">
           <caret line="142" column="81" selection-start-line="142" selection-start-column="81" selection-end-line="142" selection-end-column="81" />
           <folding>
-            <element signature="e#0#11357#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#1763#2257#0" expanded="true" />
-            <element signature="e#2012#2213#0" expanded="true" />
-            <element signature="e#2190#2191#0" expanded="true" />
-            <element signature="e#2246#2247#0" expanded="true" />
-            <element signature="e#8729#8730#0" expanded="true" />
-            <element signature="e#8782#8783#0" expanded="true" />
-            <element signature="e#11287#11288#0" expanded="true" />
-            <element signature="e#11332#11333#0" expanded="true" />
+            <element signature="e#1997#2491#0" expanded="true" />
+            <element signature="e#2246#2447#0" expanded="true" />
+            <element signature="e#2424#2425#0" expanded="true" />
+            <element signature="e#2480#2481#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2658,7 +2722,14 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2430" max-vertical-offset="8940">
           <caret line="162" column="62" selection-start-line="162" selection-start-column="62" selection-end-line="162" selection-end-column="62" />
           <folding>
-            <element signature="e#0#19961#0" expanded="true" />
+            <element signature="e#15431#16671#0" expanded="true" />
+            <element signature="e#15899#16636#0" expanded="true" />
+            <element signature="e#16613#16614#0" expanded="true" />
+            <element signature="e#16656#16657#0" expanded="true" />
+            <element signature="e#16893#17608#0" expanded="true" />
+            <element signature="e#17593#17594#0" expanded="true" />
+            <element signature="e#18100#18294#0" expanded="true" />
+            <element signature="e#18283#18284#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2668,16 +2739,10 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2130" max-vertical-offset="3495">
           <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
           <folding>
-            <element signature="e#0#11357#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#1763#2257#0" expanded="true" />
-            <element signature="e#2012#2213#0" expanded="true" />
-            <element signature="e#2190#2191#0" expanded="true" />
-            <element signature="e#2246#2247#0" expanded="true" />
-            <element signature="e#8729#8730#0" expanded="true" />
-            <element signature="e#8782#8783#0" expanded="true" />
-            <element signature="e#11287#11288#0" expanded="true" />
-            <element signature="e#11332#11333#0" expanded="true" />
+            <element signature="e#1997#2491#0" expanded="true" />
+            <element signature="e#2246#2447#0" expanded="true" />
+            <element signature="e#2424#2425#0" expanded="true" />
+            <element signature="e#2480#2481#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2687,7 +2752,14 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2430" max-vertical-offset="8940">
           <caret line="162" column="62" selection-start-line="162" selection-start-column="62" selection-end-line="162" selection-end-column="62" />
           <folding>
-            <element signature="e#0#19961#0" expanded="true" />
+            <element signature="e#15431#16671#0" expanded="true" />
+            <element signature="e#15899#16636#0" expanded="true" />
+            <element signature="e#16613#16614#0" expanded="true" />
+            <element signature="e#16656#16657#0" expanded="true" />
+            <element signature="e#16893#17608#0" expanded="true" />
+            <element signature="e#17593#17594#0" expanded="true" />
+            <element signature="e#18100#18294#0" expanded="true" />
+            <element signature="e#18283#18284#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2720,30 +2792,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10242792" vertical-offset="0" max-vertical-offset="1318">
-          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/res/drawable-hdpi/ic_action_next.png">
       <provider selected="true" editor-type-id="images">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19347496" vertical-offset="0" max-vertical-offset="1318">
-          <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23899849" vertical-offset="0" max-vertical-offset="1318">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-        </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-19/java/lang/Object.java">
@@ -2830,25 +2881,124 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.31866464" vertical-offset="0" max-vertical-offset="1318">
           <caret line="28" column="42" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/APIDelivery.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7852807" vertical-offset="1380" max-vertical-offset="3000">
+          <caret line="170" column="43" selection-start-line="170" selection-start-column="43" selection-end-line="170" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Delivery.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38694993" vertical-offset="0" max-vertical-offset="1318">
+          <caret line="48" column="69" selection-start-line="48" selection-start-column="69" selection-end-line="48" selection-end-column="94" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/util/Utils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5447648" vertical-offset="1232" max-vertical-offset="3165">
-          <caret line="130" column="55" selection-start-line="130" selection-start-column="55" selection-end-line="130" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#6536#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.6176024" vertical-offset="701" max-vertical-offset="2670">
+          <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/androidTest/java/com/ftinc/flytrap/ApplicationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07966616" vertical-offset="0" max-vertical-offset="1318">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/EmailDelivery.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.46509862" vertical-offset="377" max-vertical-offset="2025">
+          <caret line="88" column="29" selection-start-line="88" selection-start-column="29" selection-end-line="88" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Report.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2066" max-vertical-offset="5295">
+          <caret line="163" column="35" selection-start-line="163" selection-start-column="35" selection-end-line="163" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/src/main/java/com/ftinc/flytrap/example/FlyTrapActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1138088" vertical-offset="0" max-vertical-offset="1318">
+          <caret line="19" column="51" selection-start-line="19" selection-start-column="51" selection-end-line="19" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1318">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0569044" vertical-offset="0" max-vertical-offset="1318">
+          <caret line="5" column="60" selection-start-line="5" selection-start-column="60" selection-end-line="5" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29142857" vertical-offset="0" max-vertical-offset="875">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/src/main/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29142857" vertical-offset="0" max-vertical-offset="875">
+          <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="480">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/res/drawable/done_selector_light.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29142857" vertical-offset="0" max-vertical-offset="875">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/res/layout/layout_comment_bottomsheet.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4879938" vertical-offset="0" max-vertical-offset="1291">
+          <caret line="42" column="47" selection-start-line="42" selection-start-column="47" selection-end-line="42" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Bug.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19195752" vertical-offset="167" max-vertical-offset="2775">
-          <caret line="80" column="7" selection-start-line="80" selection-start-column="7" selection-end-line="80" selection-end-column="7" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1155" max-vertical-offset="2985">
+          <caret line="86" column="32" selection-start-line="86" selection-start-column="32" selection-end-line="86" selection-end-column="32" />
           <folding>
             <element signature="docComment;class#Bug#0" expanded="false" />
             <element signature="docComment;method#fromJson#0;class#Bug#0" expanded="false" />
@@ -2874,13 +3024,10 @@
             <element signature="docComment;method#setComment#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#getComment#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#inflateJson#0;class#Bug#0" expanded="false" />
-            <element signature="method#inflateJson#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#pointToJson#0;class#Bug#0" expanded="false" />
             <element signature="method#pointToJson#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#jsonToPoint#0;class#Bug#0" expanded="false" />
             <element signature="method#jsonToPoint#0;class#Bug#0" expanded="false" />
-            <element signature="docComment;method#collidesWith#0;class#Bug#0" expanded="false" />
-            <element signature="method#collidesWith#0;class#Bug#0" expanded="false" />
             <element signature="docComment;class#Builder#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#Builder#0;class#Builder#0;class#Bug#0" expanded="false" />
             <element signature="docComment;method#setCenter#0;class#Builder#0;class#Bug#0" expanded="false" />
@@ -2894,91 +3041,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Report.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10344828" vertical-offset="900" max-vertical-offset="5295">
-          <caret line="89" column="7" selection-start-line="89" selection-start-column="7" selection-end-line="89" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#10988#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/APIDelivery.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7852807" vertical-offset="1380" max-vertical-offset="3000">
-          <caret line="170" column="43" selection-start-line="170" selection-start-column="43" selection-end-line="170" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#6244#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/Delivery.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38694993" vertical-offset="0" max-vertical-offset="1318">
-          <caret line="48" column="69" selection-start-line="48" selection-start-column="69" selection-end-line="48" selection-end-column="94" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example/src/main/java/com/ftinc/flytrap/example/FlyTrapActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="720">
-          <caret line="19" column="51" selection-start-line="19" selection-start-column="51" selection-end-line="19" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/view/FlyTrapView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1976" max-vertical-offset="8790">
-          <caret line="196" column="71" selection-start-line="196" selection-start-column="71" selection-end-line="196" selection-end-column="71" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="9737" max-vertical-offset="11250">
+          <caret line="557" column="37" selection-start-line="557" selection-start-column="37" selection-end-line="557" selection-end-column="37" />
           <folding>
-            <element signature="e#0#19961#0" expanded="true" />
+            <element signature="e#15431#16671#0" expanded="true" />
+            <element signature="e#15899#16636#0" expanded="true" />
+            <element signature="e#16613#16614#0" expanded="true" />
+            <element signature="e#16656#16657#0" expanded="true" />
+            <element signature="e#16893#17608#0" expanded="true" />
+            <element signature="e#17593#17594#0" expanded="true" />
+            <element signature="e#18100#18294#0" expanded="true" />
+            <element signature="e#18283#18284#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/FlyTrap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="435" max-vertical-offset="5460">
-          <caret line="46" column="52" selection-start-line="46" selection-start-column="52" selection-end-line="46" selection-end-column="52" />
+        <state vertical-scroll-proportion="-1.7996966" vertical-offset="3782" max-vertical-offset="5100">
+          <caret line="121" column="7" selection-start-line="121" selection-start-column="7" selection-end-line="121" selection-end-column="7" />
           <folding>
-            <element signature="e#0#11357#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#1763#2257#0" expanded="true" />
-            <element signature="e#2012#2213#0" expanded="true" />
-            <element signature="e#2190#2191#0" expanded="true" />
-            <element signature="e#2246#2247#0" expanded="true" />
-            <element signature="e#8729#8730#0" expanded="true" />
-            <element signature="e#8782#8783#0" expanded="true" />
-            <element signature="e#11287#11288#0" expanded="true" />
-            <element signature="e#11332#11333#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library/src/main/java/com/ftinc/flytrap/model/EmailDelivery.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46509862" vertical-offset="812" max-vertical-offset="2385">
-          <caret line="95" column="75" selection-start-line="95" selection-start-column="75" selection-end-line="95" selection-end-column="75" />
-          <folding>
-            <element signature="e#0#4406#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#3653#3654#0" expanded="true" />
-            <element signature="e#3695#3696#0" expanded="true" />
+            <element signature="e#1997#2491#0" expanded="true" />
+            <element signature="e#2246#2447#0" expanded="true" />
+            <element signature="e#2424#2425#0" expanded="true" />
+            <element signature="e#2480#2481#0" expanded="true" />
           </folding>
         </state>
       </provider>

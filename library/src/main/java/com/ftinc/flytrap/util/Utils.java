@@ -132,6 +132,7 @@ public class Utils {
                 ZipEntry entry = new ZipEntry(file.getName());
 
                 out.putNextEntry(entry);
+
                 int count;
                 while ((count = origin.read(data, 0, BUFFER)) != -1) {
                     out.write(data, 0, count);
@@ -141,6 +142,10 @@ public class Utils {
                 origin.close();
             }
         }
+
+        // Finish the zip stream and close it
+        out.finish();
+        out.close();
     }
 
 
