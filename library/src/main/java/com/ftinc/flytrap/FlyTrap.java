@@ -87,11 +87,12 @@ public class FlyTrap extends Activity {
      */
 
     /**
-     * Start a default FlyTrap instance with a default configuration
+     * Start a default FlyTrap instance with a default configuration that will just have the user
+     * email the configuration to you
      *
      * @param ctx   the Activity context used to launch the activity
      */
-    public static void startFlyTrap(Activity ctx){
+    public static void startFlyTrap(Activity ctx, String developerEmailAddress){
         // Capture screen from the calling activity and store in a temporary file for later use
         File rootScreenShot = Utils.captureRootScreenShot(ctx);
 
@@ -103,6 +104,7 @@ public class FlyTrap extends Activity {
             // Build default config
             Config config = Config.createDefault(ctx);
             config.rootImagePath = rootScreenShot.getPath();
+            config.deliverySystem = new EmailDelivery(developerEmailAddress, "App Feedback", "");
 
             // Put the location of the temp file into the intent to be retrieved later
             config.apply(intent);
@@ -115,7 +117,7 @@ public class FlyTrap extends Activity {
     }
 
     /**
-     * Start a FlyTrap instance with the supplied configuration
+     * Start a FlyTrap instance with a supplied configuration
      *
      * @param ctx           the application context
      * @param config        the fly trap configuration
@@ -255,7 +257,6 @@ public class FlyTrap extends Activity {
             config.accentColor = ctx.getResources().getColor(android.R.color.holo_blue_light);
             config.defaultRadius = Utils.dpToPx(ctx, 56);
             config.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH;
-            config.deliverySystem = new EmailDelivery("support@email.com", "App Feedback", "");
             return config;
         }
 

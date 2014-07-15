@@ -300,7 +300,7 @@ public class Bug {
             json.put(KEY_ID, id);
             json.put(KEY_CENTER, pointToJson(center));
             json.put(KEY_RADIUS, radius);
-            json.put(KEY_COLOR, accentColor);
+            json.put(KEY_COLOR, String.format("#%06X", (0xFFFFFF & accentColor)));
             json.put(KEY_COMMENT, comment);
         } catch (JSONException e) {
             e.printStackTrace();

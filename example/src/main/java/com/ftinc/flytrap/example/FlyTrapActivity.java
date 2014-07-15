@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.ftinc.flytrap.FlyTrap;
+import com.ftinc.flytrap.model.APIDelivery;
 import com.ftinc.flytrap.model.EmailDelivery;
 import com.ftinc.flytrap.util.Utils;
 

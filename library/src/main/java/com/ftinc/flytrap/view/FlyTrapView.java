@@ -777,6 +777,9 @@ public class FlyTrapView extends RelativeLayout implements GestureDetector.OnGes
         Bitmap flyTrapMask = Bitmap.createBitmap(getDrawingCache());
         setDrawingCacheEnabled(false);
 
+        // Merge this bitmap with the root bitmap to form the image the user looks at
+
+
         // Save the newly generated screenshot into a temporary variable
         try {
 

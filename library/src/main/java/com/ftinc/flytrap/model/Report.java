@@ -97,8 +97,6 @@ public class Report {
      */
     public void generateAPIReport(final Context ctx, final OnAPIReportGeneratedListener listener){
 
-
-
         // Generate a title
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         title = String.format("TRAP_REPORT_%s", timestamp);
